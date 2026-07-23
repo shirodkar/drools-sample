@@ -1,0 +1,65 @@
+package rules;
+
+import com.example.drools.model.Order;
+import com.example.drools.model.OrderResult;
+import com.example.drools.model.CustomerType;
+
+rule "VIP Base Discount"
+    salience 10
+    when
+        $order : Order(customerType == CustomerType.VIP)
+        $result : OrderResult()
+    then
+        $result.setDiscountPercentage($result.getDiscountPercentage() + 15);
+        $result.addMessage("VIP base discount: 15%");
+end
+
+rule "Premium Base Discount"
+    salience 10
+    when
+        $order : Order(customerType == CustomerType.PREMIUM)
+        $result : OrderResult()
+    then
+        $result.setDiscountPercentage($result.getDiscountPercentage() + 10);
+        $result.addMessage("Premium base discount: 10%");
+end
+
+rule "Regular Base Discount"
+    salience 10
+    when
+        $order : Order(customerType == CustomerType.REGULAR)
+        $result : OrderResult()
+    then
+        $result.setDiscountPercentage($result.getDiscountPercentage() + 5);
+        $result.addMessage("Regular base discount: 5%");
+end
+
+rule "Large Order Bonus Discount"
+    salience 5
+    when
+        $order : Order(totalAmount >= 500)
+        $result : OrderResult()
+    then
+        $result.setDiscountPercentage($result.getDiscountPercentage() + 5);
+        $result.addMessage("Large order bonus: +5% (order >= $500)");
+end
+
+rule "Coupon SAVE20"
+    salience 1
+    when
+        $order : Order(couponCode != null, couponCode.equalsIgnoreCase("SAVE20"))
+        $result : OrderResult()
+    then
+        $result.setDiscountPercentage($result.getDiscountPercentage() + 20);
+        $result.addMessage("Coupon SAVE20 applied: +20%");
+end
+
+rule "Coupon WELCOME10"
+    salience 1
+    when
+        $order : Order(couponCode != null, couponCode.equalsIgnoreCase("WELCOME10"))
+        $result : OrderResult()
+    then
+        $result.setDiscountPercentage($result.getDiscountPercentage() + 10);
+        $result.addMessage("Coupon WELCOME10 applied: +10%");
+end

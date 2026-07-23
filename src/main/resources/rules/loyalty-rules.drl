@@ -1,0 +1,49 @@
+package rules;
+
+import com.example.drools.model.Order;
+import com.example.drools.model.OrderResult;
+import com.example.drools.model.CustomerType;
+
+rule "Base Loyalty Points"
+    salience 4
+    when
+        $order : Order(totalAmount > 0)
+        $result : OrderResult()
+    then
+        int points = (int)($order.getTotalAmount() / 10);
+        $result.setLoyaltyPoints(points);
+        $result.addMessage("Base loyalty: " + points + " pts (1 per $10)");
+end
+
+rule "VIP Loyalty Multiplier"
+    salience 2
+    when
+        $order : Order(customerType == CustomerType.VIP)
+        $result : OrderResult()
+    then
+        int boosted = $result.getLoyaltyPoints() * 3;
+        $result.setLoyaltyPoints(boosted);
+        $result.addMessage("VIP 3x loyalty multiplier: " + boosted + " pts");
+end
+
+rule "Premium Loyalty Multiplier"
+    salience 2
+    when
+        $order : Order(customerType == CustomerType.PREMIUM)
+        $result : OrderResult()
+    then
+        int boosted = $result.getLoyaltyPoints() * 2;
+        $result.setLoyaltyPoints(boosted);
+        $result.addMessage("Premium 2x loyalty multiplier: " + boosted + " pts");
+end
+
+rule "Bulk Item Bonus Points"
+    salience 1
+    when
+        $order : Order(itemCount >= 5)
+        $result : OrderResult()
+    then
+        int bonus = $order.getItemCount() * 5;
+        $result.setLoyaltyPoints($result.getLoyaltyPoints() + bonus);
+        $result.addMessage("Bulk bonus: +" + bonus + " pts (5 per item for 5+ items)");
+end

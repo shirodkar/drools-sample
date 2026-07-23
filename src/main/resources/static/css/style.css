@@ -1,0 +1,247 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0f0f1a;
+    --bg-card: #1a1a2e;
+    --bg-input: #16213e;
+    --border: #2a2a4a;
+    --text: #e0e0e0;
+    --text-muted: #8888aa;
+    --accent: #4fc3f7;
+    --green: #66bb6a;
+    --gold: #ffd54f;
+    --red: #ef5350;
+    --purple: #ab47bc;
+    --radius: 10px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-top: 4px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 700px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+}
+
+.card h2 {
+    font-size: 1.15rem;
+    margin-bottom: 20px;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+}
+
+.card h3 {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 18px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.field {
+    margin-bottom: 16px;
+}
+
+.field label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.field input:focus,
+.field select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: #0f0f1a;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 8px;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.coupons-info {
+    margin-top: 20px;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+}
+
+.coupon-tag {
+    display: inline-block;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    font-family: monospace;
+    color: var(--gold);
+    margin-right: 6px;
+    margin-top: 6px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.stat {
+    background: var(--bg-input);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.stat-value.accent { color: var(--accent); }
+.stat-value.green  { color: var(--green); }
+.stat-value.gold   { color: var(--gold); }
+.stat-value.red    { color: var(--red); }
+
+.rules-section ul,
+.messages-section ul {
+    list-style: none;
+}
+
+.rules-section li,
+.messages-section li {
+    padding: 6px 12px;
+    margin-bottom: 4px;
+    background: var(--bg-input);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    border-left: 3px solid var(--purple);
+}
+
+.messages-section li {
+    border-left-color: var(--green);
+}
+
+.rules-info-card .rule-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.rule-chip {
+    display: inline-block;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.result-card.show {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.error-msg {
+    color: var(--red);
+    background: rgba(239, 83, 80, 0.1);
+    border: 1px solid var(--red);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    margin-top: 12px;
+}
