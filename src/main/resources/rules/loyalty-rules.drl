@@ -1,5 +1,7 @@
 package rules;
 
+dialect "mvel"
+
 import com.example.drools.model.Order;
 import com.example.drools.model.OrderResult;
 import com.example.drools.model.CustomerType;
@@ -7,11 +9,11 @@ import com.example.drools.model.CustomerType;
 rule "Base Loyalty Points"
     salience 4
     when
-        $order : Order(totalAmount > 0)
+        $order : Order(totalAmount > "0")
         $result : OrderResult()
     then
-        int points = (int)($order.getTotalAmount() / 10);
-        $result.setLoyaltyPoints(points);
+        points = (int)($order.totalAmount / 10)
+        $result.loyaltyPoints = points
         $result.addMessage("Base loyalty: " + points + " pts (1 per $10)");
 end
 
@@ -21,8 +23,8 @@ rule "VIP Loyalty Multiplier"
         $order : Order(customerType == CustomerType.VIP)
         $result : OrderResult()
     then
-        int boosted = $result.getLoyaltyPoints() * 3;
-        $result.setLoyaltyPoints(boosted);
+        boosted = $result.loyaltyPoints * 3
+        $result.loyaltyPoints = boosted
         $result.addMessage("VIP 3x loyalty multiplier: " + boosted + " pts");
 end
 
@@ -32,18 +34,18 @@ rule "Premium Loyalty Multiplier"
         $order : Order(customerType == CustomerType.PREMIUM)
         $result : OrderResult()
     then
-        int boosted = $result.getLoyaltyPoints() * 2;
-        $result.setLoyaltyPoints(boosted);
+        boosted = $result.loyaltyPoints * 2
+        $result.loyaltyPoints = boosted
         $result.addMessage("Premium 2x loyalty multiplier: " + boosted + " pts");
 end
 
 rule "Bulk Item Bonus Points"
     salience 1
     when
-        $order : Order(itemCount >= 5)
+        $order : Order(itemCount >= "5")
         $result : OrderResult()
     then
-        int bonus = $order.getItemCount() * 5;
-        $result.setLoyaltyPoints($result.getLoyaltyPoints() + bonus);
+        bonus = $order.itemCount * 5
+        $result.loyaltyPoints = $result.loyaltyPoints + bonus
         $result.addMessage("Bulk bonus: +" + bonus + " pts (5 per item for 5+ items)");
 end
